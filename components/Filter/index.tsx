@@ -9,7 +9,7 @@ import {
   Title,
   Wrapper,
 } from './styles';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 const Filters = [
   {
@@ -25,10 +25,17 @@ const Filters = [
 ];
 
 interface IFilter {
-  filterBy?: string;
+  onChangeValue?: (e: string) => void;
 }
 
-export const Filter: React.FC<IFilter> = ({ filterBy }) => {
+export const Filter: React.FC<IFilter> = ({ onChangeValue }) => {
+  const [value, setValue] = useState(Filters[0].id);
+
+  function changeValue(id: string) {
+    setValue(id);
+    onChangeValue(id);
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -37,7 +44,10 @@ export const Filter: React.FC<IFilter> = ({ filterBy }) => {
           {Filters.map((item, index) => {
             return (
               <Fragment key={item.id}>
-                <Item active={filterBy === item.id}>
+                <Item
+                  active={value === item.id}
+                  onClick={() => changeValue(item.id)}
+                >
                   {item.icon}
                   <ItemLabel>{item.name}</ItemLabel>
                 </Item>

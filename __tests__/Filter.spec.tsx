@@ -5,7 +5,7 @@ import { RenderWithProvider } from '../components/RenderWithProvider';
 test('Get filter items', () => {
   const { getByText } = render(
     <RenderWithProvider>
-      <Filter />
+      <Filter onChangeValue={console.log} />
     </RenderWithProvider>
   );
 
