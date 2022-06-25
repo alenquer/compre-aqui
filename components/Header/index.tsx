@@ -1,6 +1,8 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ManageAccounts } from 'styled-icons/material';
 import { Cart } from '../Cart';
+import useStateManager from '../../hooks/useStateManager';
+
 import {
   ActionButton,
   Container,
@@ -11,19 +13,26 @@ import {
 } from './styles';
 
 export const Header: React.FC = () => {
+  const router = useRouter();
+  const { user, signOut } = useStateManager();
+
+  const handleUser = () => {
+    if (user) {
+      signOut();
+    }
+
+    router.push('/login');
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>CompreAqui</Title>
         <Shortcuts>
-          <Link href="/login">
-            <ActionButton>
-              <ManageAccounts size={22} />
-            </ActionButton>
-          </Link>
-          <Link href="/login">
-            <Shortcut>Minha conta</Shortcut>
-          </Link>
+          <ActionButton onClick={handleUser}>
+            <ManageAccounts size={22} />
+          </ActionButton>
+          <Shortcut onClick={handleUser}>{user ? 'Sair' : 'Entrar'}</Shortcut>
           <Cart total={0} />
         </Shortcuts>
       </Wrapper>

@@ -8,6 +8,7 @@ export const EditAuthor = styled.span<{ active?: boolean }>`
   color: ${({ active, theme }) => (active ? theme.colors.purple_dark : 'grey')};
   font-size: 0.7rem;
   line-height: 2rem;
+  margin: 0 0.3rem;
 `;
 
 export const Wrapper = styled.div`
@@ -20,6 +21,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border-radius: 11px;
 
   :hover {
     cursor: pointer;

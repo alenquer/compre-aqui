@@ -55,14 +55,24 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
         <Header>
           <Title>Todos os produtos</Title>
           <PageControls>
-            <Button onClick={onPrevious}>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                onPrevious();
+              }}
+            >
               <ChevronLeftSquare
                 size={26}
                 color={firstPage ? '#ccc' : '#333'}
               />
             </Button>
             <PageLabel>{page}</PageLabel>
-            <Button onClick={onNext}>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                onNext();
+              }}
+            >
               <ChevronRightSquare
                 size={26}
                 color={lastPage ? '#ccc' : '#333'}
