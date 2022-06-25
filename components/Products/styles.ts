@@ -70,3 +70,9 @@ export const Content = styled.ul`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+
+export const EmptyLabel = styled.p`
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  color: #333;
+`;

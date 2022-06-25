@@ -1,7 +1,7 @@
 declare interface IProductItemProps {
   id: any;
-  url: string;
+  avatar: string;
   name: string;
-  value: number;
+  price: number;
   author: string;
 }
