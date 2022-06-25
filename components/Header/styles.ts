@@ -12,13 +12,17 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(1024px, 90%);
+  width: min(1024px, 95%);
 `;
 
 export const Title = styled.span`
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.text};
+
+  @media screen and (min-width: 600px) {
+    font-size: 1.3rem;
+  }
 `;
 
 export const Shortcuts = styled.ul`
@@ -32,11 +36,30 @@ export const Shortcuts = styled.ul`
 `;
 
 export const Shortcut = styled.li`
-  cursor: pointer;
+  display: none;
   font-size: 0.9rem;
   color: rgba(51, 51, 51, 0.6);
 
   :hover {
+    cursor: pointer;
     opacity: 0.5;
+  }
+
+  @media screen and (min-width: 600px) {
+    display: flex;
+  }
+`;
+
+export const ActionButton = styled.div`
+  margin: 0 10px;
+  color: rgba(51, 51, 51, 0.6);
+
+  :hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  @media screen and (min-width: 600px) {
+    display: none;
   }
 `;
