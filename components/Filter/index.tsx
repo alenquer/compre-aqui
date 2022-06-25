@@ -9,6 +9,7 @@ import {
   Title,
   Wrapper,
 } from './styles';
+import { Fragment } from 'react';
 
 const Filters = [
   {
@@ -35,13 +36,13 @@ export const Filter: React.FC<IFilter> = ({ filterBy }) => {
         <Items>
           {Filters.map((item, index) => {
             return (
-              <>
-                <Item active={filterBy === item.id} key={item.id}>
+              <Fragment key={item.id}>
+                <Item active={filterBy === item.id}>
                   {item.icon}
                   <ItemLabel>{item.name}</ItemLabel>
                 </Item>
                 {index !== Filters.length - 1 && <SeparatorItem />}
-              </>
+              </Fragment>
             );
           })}
         </Items>
