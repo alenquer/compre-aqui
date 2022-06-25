@@ -9,7 +9,7 @@ export default function Home({ items }) {
       <Head>
         <title>Compre Aqui - O seu catálogo de produtos orgânicos</title>
         <meta name="description" content="Os melhores produtos orgânicos" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <Main items={items} />
     </>
