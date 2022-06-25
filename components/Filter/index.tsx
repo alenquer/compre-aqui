@@ -1,3 +1,4 @@
+import { Fragment, useState } from 'react';
 import { AllInbox } from 'styled-icons/material';
 import { Cart4 } from 'styled-icons/bootstrap';
 import {
@@ -9,7 +10,6 @@ import {
   Title,
   Wrapper,
 } from './styles';
-import { Fragment, useState } from 'react';
 
 const Filters = [
   {

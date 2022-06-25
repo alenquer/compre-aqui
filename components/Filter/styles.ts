@@ -6,6 +6,11 @@ export const Container = styled.div`
   height: 400px;
   width: 16rem;
   background-color: white;
+
+  @media screen and (max-width: 1024px) {
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 export const Wrapper = styled.div`

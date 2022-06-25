@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   height: 2.5rem;
-  width: min(1024px, 95%);
+  width: 100%;
   background-color: white;
   margin: 1.5rem auto;
   padding: 0 1rem;
@@ -19,4 +19,5 @@ export const Wrapper = styled.div`
 export const Input = styled.input`
   margin-left: 1rem;
   height: 2.5rem;
+  outline: none;
 `;
