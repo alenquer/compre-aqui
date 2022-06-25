@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ManageAccounts } from 'styled-icons/material';
 import { Cart } from '../Cart';
 import {
@@ -15,10 +16,14 @@ export const Header: React.FC = () => {
       <Wrapper>
         <Title>CompreAqui</Title>
         <Shortcuts>
-          <ActionButton>
-            <ManageAccounts size={22} />
-          </ActionButton>
-          <Shortcut>Minha conta</Shortcut>
+          <Link href="/login">
+            <ActionButton>
+              <ManageAccounts size={22} />
+            </ActionButton>
+          </Link>
+          <Link href="/login">
+            <Shortcut>Minha conta</Shortcut>
+          </Link>
           <Cart total={0} />
         </Shortcuts>
       </Wrapper>
