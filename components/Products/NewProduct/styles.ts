@@ -9,6 +9,8 @@ export const Container = styled.button`
   height: 2.5rem;
   background-color: ${({ theme }) => theme.colors.purple_light};
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
 
   :hover {
     cursor: pointer;

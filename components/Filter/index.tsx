@@ -10,6 +10,7 @@ import {
   Title,
   Wrapper,
 } from './styles';
+import useStateManager from '../../hooks/useStateManager';
 
 const Filters = [
   {
@@ -24,17 +25,8 @@ const Filters = [
   },
 ];
 
-interface IFilter {
-  onChangeValue?: (e: string) => void;
-}
-
-export const Filter: React.FC<IFilter> = ({ onChangeValue }) => {
-  const [value, setValue] = useState(Filters[0].id);
-
-  function changeValue(id: string) {
-    setValue(id);
-    onChangeValue(id);
-  }
+export const Filter: React.FC = () => {
+  const { productFilter, setProductFilter } = useStateManager();
 
   return (
     <Container>
@@ -45,8 +37,16 @@ export const Filter: React.FC<IFilter> = ({ onChangeValue }) => {
             return (
               <Fragment key={item.id}>
                 <Item
-                  active={value === item.id}
-                  onClick={() => changeValue(item.id)}
+                  active={productFilter.id === item.id}
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    setProductFilter({
+                      ...productFilter,
+                      id: item.id,
+                      name: item.name,
+                    });
+                  }}
                 >
                   {item.icon}
                   <ItemLabel>{item.name}</ItemLabel>

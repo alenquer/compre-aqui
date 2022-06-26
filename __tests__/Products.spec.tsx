@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
 import { ProductList } from '../components/Products';
-import { RenderWithProvider } from '../components/RenderWithProvider';
+import { RenderWithProvider } from '../utils/RenderWithProvider';
 
 const items = [
   {
     id: String(Math.random()),
     name: 'Maça',
     price: 55,
+    sku: String(Math.random()),
     author: 'Lorena Vimercati',
     avatar: 'https://i.imgur.com/esNeD8r.png',
   },
@@ -14,12 +15,14 @@ const items = [
     id: String(Math.random()),
     name: 'Banana',
     price: 55,
+    sku: String(Math.random()),
     author: 'Lorena Vimercati',
     avatar: 'https://i.imgur.com/esNeD8r.png',
   },
   {
     id: String(Math.random()),
     name: 'Uva',
+    sku: String(Math.random()),
     price: 55,
     author: 'Lorena Vimercati',
     avatar: 'https://i.imgur.com/esNeD8r.png',
@@ -28,6 +31,7 @@ const items = [
     id: String(Math.random()),
     name: 'Melancia',
     price: 55,
+    sku: String(Math.random()),
     author: 'Lorena Vimercati',
     avatar: 'https://i.imgur.com/esNeD8r.png',
   },

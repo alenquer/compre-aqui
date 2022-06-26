@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.li`
+  display: flex;
+  flex-direction: column;
   margin: 1rem 0;
 `;
 
@@ -45,4 +47,20 @@ export const Image = styled.img`
   width: 6rem;
   height: 6rem;
   border-radius: 999px;
+`;
+
+export const Button = styled.button<{ active?: boolean }>`
+  background-color: ${({ active, theme }) =>
+    active ? theme.colors.purple_light : '#eee'};
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 11px;
+  margin-bottom: 15px;
+  color: ${({ active }) => (active ? 'white' : 'grey')};
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+
+  :hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;

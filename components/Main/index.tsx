@@ -15,7 +15,7 @@ export const Main: React.FC<IProps> = ({ items }) => {
       <Wrapper>
         <SearchBar />
         <AsideContent>
-          <Filter onChangeValue={console.log} />
+          <Filter />
           <ProductList data={items} />
         </AsideContent>
       </Wrapper>

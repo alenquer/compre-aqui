@@ -14,10 +14,12 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 export const Input = styled.input`
   margin-left: 1rem;
   height: 2.5rem;
   outline: none;
+  width: 100%;
 `;

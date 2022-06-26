@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { Cart } from '../components/Cart';
-import { RenderWithProvider } from '../components/RenderWithProvider';
+import { RenderWithProvider } from '../utils/RenderWithProvider';
 
 test('Get total cart items', () => {
   const { getByText } = render(

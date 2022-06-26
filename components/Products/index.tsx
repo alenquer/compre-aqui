@@ -2,7 +2,7 @@ import {
   ChevronLeftSquare,
   ChevronRightSquare,
 } from '@styled-icons/boxicons-regular';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { currentPage } from '../../utils';
 import { NewProduct } from './NewProduct';
 import { ProductItem } from './Item';
@@ -18,22 +18,47 @@ import {
   Title,
   Wrapper,
 } from './styles';
+import useStateManager from '../../hooks/useStateManager';
 
 interface IProps {
   data: IProductItemProps[];
 }
 
 export const ProductList: React.FC<IProps> = ({ data }) => {
+  const { cartItems, productFilter } = useStateManager();
   const [page, setPage] = useState(1);
   const perPage = 25;
 
+  function searchProducts() {
+    let isCartFilter = productFilter.id === 'cart';
+    let list = [];
+
+    for (let item of data) {
+      const checkCartItem = () => {
+        if (cartItems.includes(item.sku)) {
+          list.push(item);
+        }
+      };
+
+      if (item.sku.includes(productFilter.search)) {
+        if (isCartFilter) {
+          checkCartItem();
+        } else {
+          list.push(item);
+        }
+      }
+    }
+
+    return list;
+  }
+
   let _currentPage: IProductItemProps[] = currentPage({
-    data,
+    data: searchProducts(),
     page,
     perPage,
   });
 
-  const totalPages = Math.ceil((data.length as number) / perPage);
+  const totalPages = Math.ceil((searchProducts().length as number) / perPage);
   const firstPage = page <= 1;
   const lastPage = page >= totalPages;
 
@@ -49,11 +74,21 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
     }
   }
 
+  function pageControl() {
+    if (page > totalPages) {
+      setPage(1);
+    }
+  }
+
+  useEffect(() => {
+    pageControl();
+  }, [productFilter]);
+
   return (
     <Container>
       <Wrapper>
         <Header>
-          <Title>Todos os produtos</Title>
+          <Title>{productFilter.name}</Title>
           <PageControls>
             <Button
               onClick={(e) => {
@@ -81,12 +116,12 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
           </PageControls>
         </Header>
         <NewProduct />
-        {!data.length ? (
+        {!searchProducts().length ? (
           <EmptyLabel>Nenhum produto encontrado.</EmptyLabel>
         ) : (
           <Content>
             {_currentPage.map((item) => {
-              return <ProductItem key={item.sku} item={item} />;
+              return <ProductItem key={item.id} item={item} />;
             })}
           </Content>
         )}
