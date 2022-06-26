@@ -10,14 +10,9 @@ export const Container = styled.div`
   align-items: center;
   border-radius: 999px;
   overflow: hidden;
-
-  :hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 `;
 
-export const Wrapper = styled.div<IWrapper>`
+export const Wrapper = styled.button<IWrapper>`
   display: flex;
   height: 2rem;
   padding: 1rem;
@@ -30,14 +25,14 @@ export const Wrapper = styled.div<IWrapper>`
   @media screen and (max-width: 601px) {
     font-size: 0.6rem;
   }
+
+  :hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;
 
 export const Title = styled.span`
   color: #fff;
   margin-left: 0.5rem;
-`;
-
-export const Counter = styled.span`
-  font-weight: bold;
-  color: #fff;
 `;

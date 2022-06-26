@@ -1,9 +1,15 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { api } from '../../config/api';
-import { validURL } from '../../utils';
+import {
+  convertCurrency,
+  extractNumbers,
+  validAlphaNum,
+  validURL,
+} from '../../utils';
 import useStateManager from '../../hooks/useStateManager';
 import { Button, Container, EditAuthor, Input, Title, Wrapper } from './styles';
+import { useRevalidatePath } from '../../hooks/useRevalidatePath';
 
 interface IProps {
   data: IProductItemProps;
@@ -49,7 +55,14 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       updatedAt: new Date().toISOString(),
     });
 
-    if (request.status !== 200) {
+    const revalidated = await Promise.all([
+      await useRevalidatePath(`/product/${data.id}`),
+      await useRevalidatePath('/'),
+    ]);
+
+    const [item, home] = revalidated;
+
+    if (request.status !== 200 || !home || !item) {
       return window.alert('Algo deu errado, tente novamente!');
     }
   }
@@ -57,13 +70,20 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   async function removeData(e: any) {
     e.preventDefault();
 
+    setLoading(true);
+
     const request = await api.delete(`/api/products/${data.id}`);
 
-    if (request.status !== 200) {
+    const revalidated = await useRevalidatePath('/');
+
+    if (request.status !== 200 || !revalidated) {
+      setLoading(false);
       return window.alert('Algo deu errado, tente novamente!');
     }
 
-    router.push('/');
+    await router.push('/');
+
+    setLoading(false);
   }
 
   async function newData() {
@@ -74,10 +94,14 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       updatedAt: new Date().toISOString(),
     });
 
-    if (request.status === 201) {
-      router.push(`/product/${request.data.id}`);
-      return window.alert('O produto foi criado com sucesso!');
-    } else {
+    const revalidated = await Promise.all([
+      await useRevalidatePath(`/product/${request.data.id}`),
+      await useRevalidatePath('/'),
+    ]);
+
+    const [item, home] = revalidated;
+
+    if (request.status !== 201 || !home || !item) {
       return window.alert('Algo deu errado, tente novamente!');
     }
   }
@@ -143,6 +167,8 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     }
   }
 
+  const convertPriceValue = convertCurrency('period', state.price ?? 0, 'R$');
+
   return (
     <Container>
       <Title>{handleName().title}</Title>
@@ -151,21 +177,25 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
           error={hasError('name')}
           value={state.name}
           placeholder="Nome do produto"
-          onChange={(e) => setState({ ...state, name: e.target.value })}
+          onChange={(e) =>
+            setState({ ...state, name: validAlphaNum(e.target.value) })
+          }
         />
         <Input
           error={hasError('sku')}
           value={state.sku}
           placeholder="Código do produto"
-          onChange={(e) => setState({ ...state, sku: e.target.value })}
+          onChange={(e) =>
+            setState({ ...state, sku: validAlphaNum(e.target.value) })
+          }
         />
         <Input
           error={hasError('price')}
-          value={state.price > 0 ? state.price : ''}
+          value={convertPriceValue}
           placeholder="Valor do produto"
-          type="number"
+          type="text"
           onChange={(e) =>
-            setState({ ...state, price: Number(e.target.value) })
+            setState({ ...state, price: extractNumbers(e.target.value) / 100 })
           }
         />
         <Input

@@ -19,6 +19,7 @@ export const Header: React.FC = () => {
   const handleUser = () => {
     if (user) {
       signOut();
+      return router.reload();
     }
 
     router.push('/login');

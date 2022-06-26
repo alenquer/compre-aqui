@@ -1,19 +1,19 @@
 import { Cart4 } from 'styled-icons/bootstrap';
-import { Container, Wrapper, Title, Counter } from './styles';
+import useStateManager from '../../hooks/useStateManager';
+import { Container, Wrapper, Title } from './styles';
 
-interface ICart {
-  total: number;
-}
+export const Cart: React.FC = () => {
+  const { productFilter, setProductFilter } = useStateManager();
 
-export const Cart: React.FC<ICart> = ({ total }) => {
+  function changeFilter() {
+    setProductFilter({ ...productFilter, id: 'cart' });
+  }
+
   return (
     <Container>
-      <Wrapper>
+      <Wrapper onClick={changeFilter}>
         <Cart4 size={22} color="white" />
         <Title>Carrinho</Title>
-      </Wrapper>
-      <Wrapper color="#3B30B2">
-        <Counter>{total}</Counter>
       </Wrapper>
     </Container>
   );

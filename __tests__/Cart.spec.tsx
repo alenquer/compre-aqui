@@ -5,9 +5,9 @@ import { RenderWithProvider } from '../utils/RenderWithProvider';
 test('Get total cart items', () => {
   const { getByText } = render(
     <RenderWithProvider>
-      <Cart total={5} />
+      <Cart />
     </RenderWithProvider>
   );
 
-  expect(getByText(5)).toBeTruthy();
+  expect(getByText('Carrinho')).toBeTruthy();
 });

@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Head from 'next/head';
-import useSWR from 'swr';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { api } from '../../../config/api';
 import { ProductForm } from '../../../components/ProductForm';
@@ -9,25 +8,13 @@ import { useRouter } from 'next/router';
 import { LoadingScreen } from '../../../components/Loading';
 
 interface IProps {
-  item: IProductItemProps;
+  items: IProductItemProps;
 }
 
-export default function Product(props: IProps) {
+export default function Product({ items }: IProps) {
   const router = useRouter();
 
-  let pathUrl = '/products/' + router.query.productId;
-
-  const { data, error } = useSWR(pathUrl, async () => {
-    const response = await api.get(pathUrl);
-
-    return response.data;
-  });
-
-  if (error) {
-    router.back();
-  }
-
-  if (router.isFallback || error) {
+  if (router.isFallback) {
     return <LoadingScreen />;
   }
 
@@ -52,7 +39,7 @@ export default function Product(props: IProps) {
           </ImageContent>
         </Wrapper>
         <Wrapper>
-          <ProductForm data={data ?? props.item} method="edit" />
+          <ProductForm data={items} method="edit" />
         </Wrapper>
       </Container>
     </>
@@ -81,12 +68,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const response = await api.get(`/products/${productId}`);
 
-  let item = await response.data;
+  let items = await response.data;
 
   return {
-    revalidate: 1,
     props: {
-      item,
+      items,
     },
   };
 };

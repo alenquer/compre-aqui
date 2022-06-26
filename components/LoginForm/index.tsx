@@ -2,6 +2,7 @@ import { ChevronRightSquare } from '@styled-icons/boxicons-regular';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useStateManager from '../../hooks/useStateManager';
+import { validAlphaNum } from '../../utils';
 import { Button, Container, Input, Title, Wrapper } from './styles';
 
 export const LoginForm: React.FC = () => {
@@ -15,7 +16,7 @@ export const LoginForm: React.FC = () => {
     }
 
     signUp(userValue);
-    router.back();
+    router.push('/');
   }
 
   return (
@@ -23,8 +24,10 @@ export const LoginForm: React.FC = () => {
       <Title>Deseja continuar?</Title>
       <Wrapper>
         <Input
+          type="text"
           placeholder="Informe o seu nome"
-          onChange={(e) => setUserValue(e.target.value)}
+          value={userValue}
+          onChange={(e) => setUserValue(validAlphaNum(e.target.value))}
         />
         <Button onClick={handleLogin}>
           <ChevronRightSquare size={36} />

@@ -55,7 +55,6 @@ export const StateProvider: React.FC<IProps> = ({ children }) => {
   async function signOut() {
     try {
       window.localStorage.removeItem('@user');
-      setUser('');
     } catch (e) {
       window.alert('Algo deu errado, tente novamente!');
     }

@@ -14,3 +14,7 @@ declare interface IFilterProps {
   name: string;
   search?: string;
 }
+
+declare interface IRevalidated {
+  revalidated: boolean;
+}

@@ -16,6 +16,7 @@ export const SearchBar: React.FC = () => {
       <Wrapper>
         <Search size={22} />
         <Input
+          type="search"
           placeholder="Procurar produto por SKU"
           onChange={(e) => setTempText(e.target.value)}
           onBlur={changeValue}
