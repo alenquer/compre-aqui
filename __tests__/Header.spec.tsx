@@ -11,7 +11,4 @@ test('Get filter items', () => {
 
   //Cart label
   expect(getByText('Carrinho')).toBeTruthy();
-
-  //Total cart items
-  expect(getByText('0')).toBeTruthy();
 });

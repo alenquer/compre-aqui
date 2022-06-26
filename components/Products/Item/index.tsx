@@ -44,7 +44,7 @@ export const ProductItem: React.FC<IProps> = ({ item }) => {
         <Wrapper>
           <Image src={item.avatar} />
           <Title>{limitCase(item.name, 15)}</Title>
-          <Price>R$ {Number(item.price).toFixed(2)}</Price>
+          <Price>R$ {limitCase(Number(item.price).toFixed(2), 10)}</Price>
         </Wrapper>
       </Link>
       <EditAuthor style={{ marginLeft: 5 }}>

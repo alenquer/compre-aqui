@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import moment from 'moment';
 import { api } from '../../config/api';
 import {
+  AlphaNumWithoutSpace,
+  AlphaNumWithSpace,
   convertCurrency,
-  extractNumbers,
-  validAlphaNum,
+  limitCase,
   validURL,
 } from '../../utils';
 import useStateManager from '../../hooks/useStateManager';
@@ -49,6 +51,8 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   async function updateData() {
+    window.alert('O seu produto está sendo atualizado..');
+
     const request = await api.put(`/api/products/${data.id}`, {
       ...state,
       author: user,
@@ -65,6 +69,8 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     if (request.status !== 200 || !home || !item) {
       return window.alert('Algo deu errado, tente novamente!');
     }
+
+    await router.push('/');
   }
 
   async function removeData(e: any) {
@@ -76,17 +82,18 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     const revalidated = await useRevalidatePath('/');
 
+    setLoading(false);
+
     if (request.status !== 200 || !revalidated) {
-      setLoading(false);
       return window.alert('Algo deu errado, tente novamente!');
     }
 
     await router.push('/');
-
-    setLoading(false);
   }
 
   async function newData() {
+    window.alert('O seu produto está sendo cadastrado..');
+
     const request = await api.post(`/api/products`, {
       ...state,
       author: user,
@@ -104,6 +111,8 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     if (request.status !== 201 || !home || !item) {
       return window.alert('Algo deu errado, tente novamente!');
     }
+
+    await router.push('/');
   }
 
   async function handleForm(e: any) {
@@ -167,7 +176,9 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     }
   }
 
-  const convertPriceValue = convertCurrency('period', state.price ?? 0, 'R$');
+  function convertPriceValue() {
+    return convertCurrency('period', state.price > 0 ? state.price : 0, 'R$');
+  }
 
   return (
     <Container>
@@ -178,7 +189,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
           value={state.name}
           placeholder="Nome do produto"
           onChange={(e) =>
-            setState({ ...state, name: validAlphaNum(e.target.value) })
+            setState({ ...state, name: AlphaNumWithSpace(e.target.value) })
           }
         />
         <Input
@@ -186,16 +197,18 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
           value={state.sku}
           placeholder="Código do produto"
           onChange={(e) =>
-            setState({ ...state, sku: validAlphaNum(e.target.value) })
+            setState({ ...state, sku: AlphaNumWithoutSpace(e.target.value) })
           }
         />
         <Input
           error={hasError('price')}
-          value={convertPriceValue}
+          value={convertPriceValue()}
           placeholder="Valor do produto"
-          type="text"
           onChange={(e) =>
-            setState({ ...state, price: extractNumbers(e.target.value) / 100 })
+            setState({
+              ...state,
+              price: Number(e.target.value.replace(/\D/g, '')),
+            })
           }
         />
         <Input
@@ -207,23 +220,41 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       </Wrapper>
       <Button
         disabled={loading}
+        status={loading ? 'loading' : ''}
         onClick={handleForm}
-        style={{ opacity: loading ? 0.5 : 1 }}
       >
         {handleName().button}
       </Button>
       {method === 'edit' && (
         <Button
           disabled={loading}
+          status={loading ? 'loading' : ''}
           onClick={removeData}
-          style={{ opacity: loading ? 0.5 : 1, background: 'red' }}
+          style={{ background: 'red' }}
         >
           Apagar
         </Button>
       )}
       {state.author && (
         <EditAuthor>
-          Editado por <EditAuthor active>{data.author}</EditAuthor>
+          {`Editado por `}
+          <EditAuthor active>{limitCase(data.author, 15)}</EditAuthor>
+        </EditAuthor>
+      )}
+      {state.createdAt && (
+        <EditAuthor>
+          {`Criado em `}
+          <EditAuthor active>
+            {moment(state.createdAt).local(true).format('LLL')}
+          </EditAuthor>
+        </EditAuthor>
+      )}
+      {state.updatedAt && (
+        <EditAuthor>
+          {`Atualizado em `}
+          <EditAuthor active>
+            {moment(state.updatedAt).local(true).format('LLL')}
+          </EditAuthor>
         </EditAuthor>
       )}
     </Container>

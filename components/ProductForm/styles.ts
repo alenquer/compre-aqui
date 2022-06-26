@@ -21,7 +21,6 @@ export const Title = styled.span`
 export const EditAuthor = styled.span<{ active?: boolean }>`
   color: ${({ active, theme }) => (active ? theme.colors.purple_dark : 'grey')};
   font-size: 0.7rem;
-  line-height: 2rem;
   margin-top: 0.5rem;
 `;
 
@@ -34,13 +33,14 @@ export const Input = styled.input<{ error?: boolean }>`
   margin-top: 0.5rem;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ status?: string }>`
   background-color: ${({ theme }) => theme.colors.purple_light};
   outline: none;
   padding: 1rem;
   border-radius: 5px;
   margin-top: 0.5rem;
   color: white;
+  opacity: ${({ status }) => (status === 'loading' ? 0.5 : 1)};
 
   :hover {
     cursor: pointer;

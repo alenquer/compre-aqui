@@ -26,8 +26,12 @@ export function validURL(str: string) {
   return !!pattern.test(str);
 }
 
-export function validAlphaNum(str: string) {
-  return str.replace(/[^a-z0-9]/gi, '');
+export function AlphaNumWithoutSpace(str: string) {
+  return str.replace(/[&\/\\#,=+()$~%.'";:[\]*?<>{}\s]/g, '');
+}
+
+export function AlphaNumWithSpace(str: string) {
+  return str.replace(/[&\/\\#,+()=$~%.'";:[\]*?<>{}]/g, '');
 }
 
 export function limitCase(text: string, count: number) {
@@ -36,12 +40,6 @@ export function limitCase(text: string, count: number) {
 
 export function sleep(ms: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export function extractNumbers(text: string) {
-  var num = text.replace(/[^0-9]/g, '');
-  var result = parseInt(num, 10);
-  return isNaN(result) ? 0 : result;
 }
 
 export function convertCurrency(

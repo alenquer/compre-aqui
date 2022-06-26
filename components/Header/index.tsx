@@ -14,7 +14,7 @@ import {
 
 export const Header: React.FC = () => {
   const router = useRouter();
-  const { user, signOut, cartItems } = useStateManager();
+  const { user, signOut } = useStateManager();
 
   const handleUser = () => {
     if (user) {

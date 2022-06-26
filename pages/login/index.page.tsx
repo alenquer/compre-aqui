@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import { LoginForm } from '../../components/LoginForm';
-import useStateManager from '../../hooks/useStateManager';
 import { Container, ImageContent, Wrapper } from './styles';
 import { LoadingScreen } from '../../components/Loading';
 
