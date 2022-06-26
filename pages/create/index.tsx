@@ -1,38 +1,41 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { ProductForm } from '../../components/ProductForm';
-import useStateManager from '../../hooks/useStateManager';
 import { Container, ImageContent, Wrapper } from './styles';
 
 export default function Create() {
-  const { user } = useStateManager();
-
   const initialData = {
     name: '',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    author: user,
+    author: '',
     avatar: '',
     sku: '',
     price: 0,
   };
 
   return (
-    <Container>
-      <Wrapper color="#3B30B2">
-        <ImageContent>
-          <Image
-            src={`/food.svg`}
-            width="100%"
-            height="100%"
-            layout="responsive"
-            quality={80}
-            priority
-          />
-        </ImageContent>
-      </Wrapper>
-      <Wrapper>
-        <ProductForm data={initialData} />
-      </Wrapper>
-    </Container>
+    <>
+      <Head>
+        <title>Cadastrar produto</title>
+        <meta name="description" content="Os melhores produtos orgânicos" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
+      <Container>
+        <Wrapper color="#3B30B2">
+          <ImageContent>
+            <Image
+              src={`/food.svg`}
+              width="100%"
+              height="100%"
+              layout="responsive"
+              quality={80}
+              priority
+            />
+          </ImageContent>
+        </Wrapper>
+        <Wrapper>
+          <ProductForm data={initialData} method="create" />
+        </Wrapper>
+      </Container>
+    </>
   );
 }

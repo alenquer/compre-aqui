@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: red;
 
   @media screen and (max-width: 720px) {
     flex-direction: column;
@@ -15,7 +14,7 @@ export const Wrapper = styled.aside<{ color?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ color }) => color ?? 'white'};
+  background-color: ${({ color, theme }) => color ?? theme.colors.bg};
   height: 100vh;
 `;
 

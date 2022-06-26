@@ -1,4 +1,5 @@
 declare interface IProductItemProps {
+  id?: string;
   avatar: string;
   name: string;
   price: number;
@@ -6,4 +7,10 @@ declare interface IProductItemProps {
   sku: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+declare interface IFilterProps {
+  id: string;
+  name: string;
+  search?: string;
 }

@@ -15,7 +15,7 @@ export const Wrapper = styled.aside<{ color?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ color }) => color ?? 'white'};
+  background-color: ${({ color, theme }) => color ?? theme.colors.bg};
   height: 100vh;
 `;
 
