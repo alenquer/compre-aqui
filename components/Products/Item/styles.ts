@@ -8,7 +8,6 @@ export const EditAuthor = styled.span<{ active?: boolean }>`
   color: ${({ active, theme }) => (active ? theme.colors.purple_dark : 'grey')};
   font-size: 0.7rem;
   line-height: 2rem;
-  margin: 0 0.3rem;
 `;
 
 export const Wrapper = styled.div`
@@ -40,4 +39,10 @@ export const Title = styled.span`
 export const Price = styled.span`
   font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.purple_light};
+`;
+
+export const Image = styled.img`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 999px;
 `;

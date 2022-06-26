@@ -17,7 +17,7 @@ export default function Home({ items }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get(process.env.API_URL + '/api/products');
+  const response = await api.get('/api/products');
 
   const items = await response.data;
 

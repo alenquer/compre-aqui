@@ -13,6 +13,7 @@ export default function Login() {
             height="100%"
             layout="responsive"
             quality={80}
+            priority
           />
         </ImageContent>
       </Wrapper>

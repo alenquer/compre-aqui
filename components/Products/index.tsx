@@ -4,7 +4,7 @@ import {
 } from '@styled-icons/boxicons-regular';
 import { useState } from 'react';
 import { currentPage } from '../../utils';
-import { Bar } from './Bar';
+import { NewProduct } from './NewProduct';
 import { ProductItem } from './Item';
 
 import {
@@ -80,13 +80,13 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
             </Button>
           </PageControls>
         </Header>
-        <Bar />
+        <NewProduct />
         {!data.length ? (
           <EmptyLabel>Nenhum produto encontrado.</EmptyLabel>
         ) : (
           <Content>
             {_currentPage.map((item) => {
-              return <ProductItem key={item.id} item={item} />;
+              return <ProductItem key={item.sku} item={item} />;
             })}
           </Content>
         )}

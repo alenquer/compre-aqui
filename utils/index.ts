@@ -12,3 +12,11 @@ export function currentPage({
 
   return data.slice(_start, _end);
 }
+
+export function isImage(url: string) {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+}
+
+export function limitCase(text: string, count: number) {
+  return text.slice(0, count) + (text.length > count ? '...' : '');
+}

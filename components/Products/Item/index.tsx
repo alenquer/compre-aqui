@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { Container, EditAuthor, Price, Title, Wrapper } from './styles';
+import { Container, Image, EditAuthor, Price, Title, Wrapper } from './styles';
 
 interface IProps {
   item: IProductItemProps;
@@ -9,18 +8,11 @@ export const ProductItem: React.FC<IProps> = ({ item }) => {
   return (
     <Container>
       <Wrapper>
-        <Image
-          src={`/api/imageProxy?url=${encodeURIComponent(item.avatar)}`}
-          width="100%"
-          height="100%"
-          objectFit="cover"
-          quality={80}
-          style={{ borderRadius: 999 }}
-        />
+        <Image src={item.avatar} />
         <Title>{item.name}</Title>
         <Price>R$ {Number(item.price).toFixed(2)}</Price>
       </Wrapper>
-      <EditAuthor>
+      <EditAuthor style={{ marginLeft: 5 }}>
         Editado por <EditAuthor active>{item.author}</EditAuthor>
       </EditAuthor>
     </Container>
