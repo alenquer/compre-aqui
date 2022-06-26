@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import useStateManager from '../../../hooks/useStateManager';
+import { limitCase } from '../../../utils';
 import {
   Container,
   Image,
@@ -42,7 +43,7 @@ export const ProductItem: React.FC<IProps> = ({ item }) => {
       <Link href={`/product/${item.id}`}>
         <Wrapper>
           <Image src={item.avatar} />
-          <Title>{item.name}</Title>
+          <Title>{limitCase(item.name, 15)}</Title>
           <Price>R$ {Number(item.price).toFixed(2)}</Price>
         </Wrapper>
       </Link>

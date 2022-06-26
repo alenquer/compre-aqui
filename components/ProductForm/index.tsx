@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { api } from '../../config/api';
-import { isImage } from '../../utils';
+import { validURL } from '../../utils';
 import useStateManager from '../../hooks/useStateManager';
 import { Button, Container, EditAuthor, Input, Title, Wrapper } from './styles';
 
@@ -49,10 +49,8 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       updatedAt: new Date().toISOString(),
     });
 
-    if (request.status === 200) {
-      router.reload();
-    } else {
-      window.alert('Algo deu errado, tente novamente!');
+    if (request.status !== 200) {
+      return window.alert('Algo deu errado, tente novamente!');
     }
   }
 
@@ -61,11 +59,11 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     const request = await api.delete(`/api/products/${data.id}`);
 
-    if (request.status === 200) {
-      router.push('/');
-    } else {
-      window.alert('Algo deu errado, tente novamente!');
+    if (request.status !== 200) {
+      return window.alert('Algo deu errado, tente novamente!');
     }
+
+    router.push('/');
   }
 
   async function newData() {
@@ -78,8 +76,9 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     if (request.status === 201) {
       router.push(`/product/${request.data.id}`);
+      return window.alert('O produto foi criado com sucesso!');
     } else {
-      window.alert('Algo deu errado, tente novamente!');
+      return window.alert('Algo deu errado, tente novamente!');
     }
   }
 
@@ -101,7 +100,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     try {
       setLoading(true);
 
-      const isValidAvatar = isImage(avatar);
+      const isValidAvatar = validURL(avatar);
       const isValidSku = await checkSku(state.sku);
 
       if (!isValidAvatar) {
@@ -136,17 +135,17 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   function handleName() {
     switch (method) {
       case 'edit':
-        return 'Editar produto';
+        return { title: 'Editar produto', button: 'Atualizar' };
       case 'create':
-        return 'Criar produto';
+        return { title: 'Criar produto', button: 'Cadastrar' };
       default:
-        return 'Produto';
+        return { title: 'Produto', button: 'Concluir' };
     }
   }
 
   return (
     <Container>
-      <Title>{handleName()}</Title>
+      <Title>{handleName().title}</Title>
       <Wrapper>
         <Input
           error={hasError('name')}
@@ -181,7 +180,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
         onClick={handleForm}
         style={{ opacity: loading ? 0.5 : 1 }}
       >
-        {method === 'edit' ? 'Atualizar' : 'Cadastrar'}
+        {handleName().button}
       </Button>
       {method === 'edit' && (
         <Button
