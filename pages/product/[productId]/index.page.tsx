@@ -66,13 +66,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { productId } = params;
 
-  const response = await api.get(`/products/${productId}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
+  );
 
-  let items = await response.data;
+  const items = await response.json();
 
   return {
     props: {
       items,
     },
+    revalidate: 3,
   };
 };

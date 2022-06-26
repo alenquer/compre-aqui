@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { Header } from '../components/Header';
-import { RenderWithProvider } from '../utils/RenderWithProvider';
+import { RenderWithProvider } from '../components/RenderWithProvider';
 
 test('Get filter items', () => {
   const { getByText } = render(

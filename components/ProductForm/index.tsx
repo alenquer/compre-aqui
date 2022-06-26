@@ -7,11 +7,11 @@ import {
   AlphaNumWithSpace,
   convertCurrency,
   limitCase,
+  sleep,
   validURL,
 } from '../../utils';
 import useStateManager from '../../hooks/useStateManager';
 import { Button, Container, EditAuthor, Input, Title, Wrapper } from './styles';
-import { useRevalidatePath } from '../../hooks/useRevalidatePath';
 
 interface IProps {
   data: IProductItemProps;
@@ -59,18 +59,12 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       updatedAt: new Date().toISOString(),
     });
 
-    const revalidated = await Promise.all([
-      await useRevalidatePath(`/product/${data.id}`),
-      await useRevalidatePath('/'),
-    ]);
-
-    const [item, home] = revalidated;
-
-    if (request.status !== 200 || !home || !item) {
-      return window.alert('Algo deu errado, tente novamente!');
+    if (request.status !== 200) {
+      window.alert('Algo deu errado, tente novamente!');
+      return router.reload();
     }
 
-    await router.push('/');
+    setTimeout(router.reload, 5000);
   }
 
   async function removeData(e: any) {
@@ -80,15 +74,14 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     const request = await api.delete(`/api/products/${data.id}`);
 
-    const revalidated = await useRevalidatePath('/');
-
-    setLoading(false);
-
-    if (request.status !== 200 || !revalidated) {
-      return window.alert('Algo deu errado, tente novamente!');
+    if (request.status !== 200) {
+      window.alert('Algo deu errado, tente novamente!');
+      return router.reload();
     }
 
-    await router.push('/');
+    setTimeout(async () => {
+      await router.push('/');
+    }, 5000);
   }
 
   async function newData() {
@@ -101,22 +94,20 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       updatedAt: new Date().toISOString(),
     });
 
-    const revalidated = await Promise.all([
-      await useRevalidatePath(`/product/${request.data.id}`),
-      await useRevalidatePath('/'),
-    ]);
-
-    const [item, home] = revalidated;
-
-    if (request.status !== 201 || !home || !item) {
-      return window.alert('Algo deu errado, tente novamente!');
+    if (request.status !== 201) {
+      window.alert('Algo deu errado, tente novamente!');
+      return router.reload();
     }
 
-    await router.push('/');
+    setTimeout(async () => {
+      await router.push('/');
+    }, 5000);
   }
 
   async function handleForm(e: any) {
     e.preventDefault();
+
+    setLoading(true);
 
     const { avatar, name, sku } = state;
 
@@ -131,8 +122,6 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     }
 
     try {
-      setLoading(true);
-
       const isValidAvatar = validURL(avatar);
       const isValidSku = await checkSku(state.sku);
 
@@ -147,17 +136,17 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       setError(tempErrors);
 
       if (!tempErrors.length) {
-        switch (method) {
-          case 'edit':
-            return await updateData();
-          case 'create':
-            return await newData();
+        if (method === 'edit') {
+          await updateData();
+        }
+
+        if (method === 'create') {
+          await newData();
         }
       }
     } catch (e) {
-      console.log(e);
-    } finally {
       setLoading(false);
+      window.alert('Algo deu errado, tente novamente!');
     }
   }
 
@@ -177,7 +166,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   function convertPriceValue() {
-    return convertCurrency('period', state.price > 0 ? state.price : 0, 'R$');
+    return convertCurrency('period', state.price ?? 0, 'R$');
   }
 
   return (

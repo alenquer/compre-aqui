@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { ProductList } from '../components/Products';
-import { RenderWithProvider } from '../utils/RenderWithProvider';
+import { RenderWithProvider } from '../components/RenderWithProvider';
 
 const items = [
   {

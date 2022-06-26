@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Main } from '../components/Main';
-import { api } from '../config/api';
 
 export default function Home({ items }) {
   return (
@@ -17,11 +16,14 @@ export default function Home({ items }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get('/api/products');
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products`
+  );
 
-  const items = await response.data;
+  const items = await response.json();
 
   return {
     props: { items },
+    revalidate: 1,
   };
 };
