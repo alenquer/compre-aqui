@@ -24,16 +24,20 @@ export const Wrapper = styled.div<IWrapper>`
   flex-direction: row;
   align-items: center;
   background-color: ${({ color, theme }) => color ?? theme.colors.purple_light};
+
+  font-size: 0.9rem;
+
+  @media screen and (max-width: 601px) {
+    font-size: 0.6rem;
+  }
 `;
 
 export const Title = styled.span`
-  font-size: 0.8rem;
   color: #fff;
   margin-left: 0.5rem;
 `;
 
 export const Counter = styled.span`
-  font-size: 0.8rem;
   font-weight: bold;
   color: #fff;
 `;

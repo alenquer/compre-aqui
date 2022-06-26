@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { ManageAccounts, Logout } from 'styled-icons/material';
+import { PersonOff, Logout } from 'styled-icons/material';
 import { Cart } from '../Cart';
 import useStateManager from '../../hooks/useStateManager';
 
@@ -30,7 +30,7 @@ export const Header: React.FC = () => {
         <Title>CompreAqui</Title>
         <Shortcuts>
           <ActionButton onClick={handleUser}>
-            {user ? <Logout size={22} /> : <ManageAccounts size={22} />}
+            {user ? <Logout size={22} /> : <PersonOff size={22} />}
           </ActionButton>
           <Shortcut onClick={handleUser}>{user ? 'Sair' : 'Entrar'}</Shortcut>
           <Cart total={cartItems.length} />
