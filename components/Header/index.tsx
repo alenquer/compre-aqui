@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
             {user ? <Logout size={22} /> : <PersonOff size={22} />}
           </ActionButton>
           <Shortcut onClick={handleUser}>{user ? 'Sair' : 'Entrar'}</Shortcut>
-          <Cart total={cartItems.length} />
+          <Cart />
         </Shortcuts>
       </Wrapper>
     </Container>

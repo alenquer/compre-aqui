@@ -1,82 +1,46 @@
-# Example app with styled-components
+## **:computer: Tecnologias**
 
-This example features how you use a different styling solution than [styled-jsx](https://github.com/vercel/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
+#### **Front-End** ([React](reactjs.org) + [TypeScript](https://www.typescriptlang.org/))
 
-This example uses the Rust-based [SWC](https://nextjs.org/docs/advanced-features/compiler#styled-components) in Next.js for better performance than Babel.
+- **[Next.js](https://nextjs.org/)**
+- **HTML**
+- **Styled-Components**
 
-Currently, only the `ssr` and `displayName` transforms have been implemented. These two transforms are the main requirement for using `styled-components` in Next.js.
+#### **Utilitários**
 
-## Deploy your own
+- Protótipo: **[Figma](https://www.figma.com/)** &rarr; **<kbd>[Protótipo (Compre Aqui)](https://www.figma.com/file/q2iStTg2seUR5qPWLQOOaa/Compre-Aqui!?node-id=0%3A1)</kbd>**
+- Ícones: **[Styled-icons](https://styled-icons.dev/)**
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-styled-components)
+## **:wine_glass: COMO UTILIZAR**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-styled-components&project-name=with-styled-components&repository-name=with-styled-components)
+Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kbd> instalado na sua máquina.
 
-## How to use
+Se você estiver utilizando o **Linux**, você pode optar por instalar o **Node** através do gerênciador de versões <kbd>[nvm](https://github.com/nvm-sh/nvm)</kbd> para facilitar o processo de mudança da versão do **Node**, quando for necessário.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+Você pode optar também por utilizar o **yarn** no lugar do **npm**. Você pode instalar clicando neste <kbd>[link](https://yarnpkg.com/)</kbd>.
 
-```bash
-npx create-next-app --example with-styled-components with-styled-components-app
-# or
-yarn create next-app --example with-styled-components with-styled-components-app
-# or
-pnpm create next-app --example with-styled-components with-styled-components-app
+Após ter o **Node** instalado, instale as dependências do **React** instale as dependências contidas nos arquivos `package.json` que se encontram na raíz do repositório (para o gerenciamento de commits), no diretório do **projeto**. Para instalar as dependências, basta abrir o terminal no diretório e digitar o comando:
+
+```sh
+$ yarn
+ou
+$ npm install
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Você precisará criar um arquivo na raíz do projeto chamado .env.local com a chave de requisição do seu Back End.
 
-### Try it on CodeSandbox
+Dentro do arquivo coloque o URL de seu servidor, em ambiente de desenvolvimento é possível utilizar o Mock API :
 
-[Open this example on CodeSandbox](https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components)
-
-### Notes
-
-When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `next/link` within a styled-component, the [as](https://styled-components.com/docs/api#as-polymorphic-prop) prop provided by `styled` will collide with the Link's `as` prop and cause styled-components to throw an `Invalid tag` error. To avoid this, you can either use the recommended [forwardedAs](https://styled-components.com/docs/api#forwardedas-prop) prop from styled-components or use a different named prop to pass to a `styled` Link.
-
-<details>
-<summary>Click to expand workaround example</summary>
-<br />
-
-**components/StyledLink.js**
-
-```javascript
-import Link from 'next/link'
-import styled from 'styled-components'
-
-const StyledLink = ({ as, children, className, href }) => (
-  <Link href={href} as={as} passHref>
-    <a className={className}>{children}</a>
-  </Link>
-)
-
-export default styled(StyledLink)`
-  color: #0075e0;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #40a9ff;
-  }
-
-  &:focus {
-    color: #40a9ff;
-    outline: none;
-    border: 0;
-  }
-`
+```sh
+NEXT_PUBLIC_API_URL=https://62b656bc42c6473c4b4230b6.mockapi.io/
 ```
 
-**pages/index.js**
+Após ter instalado todas as dependências, você poderá gerar a build de desenvolvimento do projeto para o seu dispositivo com:
 
-```javascript
-import StyledLink from '../components/StyledLink'
-
-export default () => (
-  <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
-    First post
-  </StyledLink>
-)
+```sh
+$ yarn dev
+ou
+$ npm run dev
 ```
 
-</details>
+Abra [http://localhost:3000](http://localhost:3000) com seu navegador para ver o resultado.
