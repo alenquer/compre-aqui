@@ -1,16 +1,13 @@
-import Link from 'next/link';
+import React from 'react';
 import { Refresh } from '@styled-icons/boxicons-regular';
 import { Container } from './styles';
-import React from 'react';
+import { useRouter } from 'next/router';
 
-export const RefreshButton: React.FC<
-  React.HTMLAttributes<HTMLButtonElement>
-> = ({ ...rest }) => {
+export const RefreshButton: React.FC = () => {
+  const router = useRouter();
   return (
-    <Link href="/">
-      <Container {...rest}>
-        <Refresh size={24} />
-      </Container>
-    </Link>
+    <Container onClick={router.reload}>
+      <Refresh size={24} />
+    </Container>
   );
 };

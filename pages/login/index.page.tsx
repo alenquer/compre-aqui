@@ -6,8 +6,6 @@ import { LoginForm } from '../../components/LoginForm';
 import { Container, ImageContent, Wrapper } from './styles';
 import { LoadingScreen } from '../../components/Loading';
 import { theme } from '../../config/theme';
-import { ChevronLeftSquare } from '@styled-icons/boxicons-solid';
-import Link from 'next/link';
 import { BackButton } from '../../components/BackButton';
 
 export default function Login() {

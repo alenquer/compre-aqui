@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import Link from 'next/link';
 import { BackButton } from '../../components/BackButton';
 import { ProductForm } from '../../components/ProductForm';
 import { theme } from '../../config/theme';
@@ -13,6 +12,7 @@ export default function Create() {
     avatar: '',
     sku: '',
     price: 0,
+    editAuthor: '',
   };
 
   return (
