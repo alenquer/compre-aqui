@@ -7,7 +7,6 @@ import {
   AlphaNumWithSpace,
   convertCurrency,
   limitCase,
-  sleep,
   validURL,
 } from '../../utils';
 import useStateManager from '../../hooks/useStateManager';
@@ -50,75 +49,19 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     }
   }
 
-  async function updateData() {
-    window.alert('O seu produto está sendo atualizado..');
-
-    const request = await api.put(`/api/products/${data.id}`, {
-      ...state,
-      author: user,
-      updatedAt: new Date().toISOString(),
-    });
-
-    if (request.status !== 200) {
-      window.alert('Algo deu errado, tente novamente!');
-      return router.reload();
-    }
-
-    setTimeout(router.reload, 5000);
-  }
-
-  async function removeData(e: any) {
-    e.preventDefault();
-
-    setLoading(true);
-
-    const request = await api.delete(`/api/products/${data.id}`);
-
-    if (request.status !== 200) {
-      window.alert('Algo deu errado, tente novamente!');
-      return router.reload();
-    }
-
-    setTimeout(async () => {
-      await router.push('/');
-    }, 5000);
-  }
-
-  async function newData() {
-    window.alert('O seu produto está sendo cadastrado..');
-
-    const request = await api.post(`/api/products`, {
-      ...state,
-      author: user,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-
-    if (request.status !== 201) {
-      window.alert('Algo deu errado, tente novamente!');
-      return router.reload();
-    }
-
-    setTimeout(async () => {
-      await router.push('/');
-    }, 5000);
-  }
-
-  async function handleForm(e: any) {
-    e.preventDefault();
-
-    setLoading(true);
-
+  async function checkForm() {
     const { avatar, name, sku } = state;
 
     let tempErrors = [];
 
     if (!user) {
-      return window.alert('É necessário estar logado para continuar.');
+      window.alert('É necessário estar logado para continuar.');
+      return false;
     }
 
     if (!name || !avatar || !sku) {
-      return window.alert('Por favor, preencha os campos obrigatórios.');
+      window.alert('Por favor, preencha os campos obrigatórios.');
+      return false;
     }
 
     try {
@@ -135,23 +78,104 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
       setError(tempErrors);
 
-      if (!tempErrors.length) {
-        if (method === 'edit') {
-          await updateData();
-        }
-
-        if (method === 'create') {
-          await newData();
-        }
-      }
+      return tempErrors.length === 0;
     } catch (e) {
-      setLoading(false);
+      return false;
+    }
+  }
+
+  async function updateData() {
+    const check = await checkForm();
+
+    if (!check) {
+      return window.alert('Algo deu errado, tente novamente!');
+    }
+
+    const newData = {
+      ...state,
+      author: user,
+      updatedAt: new Date().toISOString(),
+    };
+
+    try {
+      await api.put(`/api/products/${data.id}`, newData);
+    } catch (e) {
       window.alert('Algo deu errado, tente novamente!');
+    } finally {
+      setState(newData);
+      setLoading(false);
+    }
+
+    window.alert('O seu produto está sendo atualizado..');
+
+    const request = await api.put(`/api/products/${data.id}`, {
+      ...state,
+      author: user,
+      updatedAt: new Date().toISOString(),
+    });
+
+    if (request.status !== 200) {
+      window.alert('Algo deu errado, tente novamente!');
+      return router.reload();
+    }
+  }
+
+  async function removeData(e: any) {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await api.delete(`/api/products/${data.id}`);
+
+      await router.push('/');
+    } catch (e) {
+      window.alert('Algo deu errado, tente novamente!');
+      setLoading(false);
+    }
+  }
+
+  async function newData() {
+    const check = await checkForm();
+
+    if (!check) {
+      return window.alert('Algo deu errado, tente novamente!');
+    }
+
+    const newData = {
+      ...state,
+      author: user,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    try {
+      setLoading(true);
+
+      const response = await api.post(`/api/products`, newData);
+
+      await router.push(`/product/${response.data.id}`);
+    } catch (e) {
+      window.alert('Algo deu errado, tente novamente!');
+      setLoading(false);
     }
   }
 
   function hasError(val: string) {
     return error.includes(val);
+  }
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+
+    switch (method) {
+      case 'edit':
+        return await updateData();
+      case 'create':
+        return await newData();
+      default:
+        return window.alert('Algo deu errado, tente novamente!');
+    }
   }
 
   function handleName() {
@@ -210,7 +234,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       <Button
         disabled={loading}
         status={loading ? 'loading' : ''}
-        onClick={handleForm}
+        onClick={handleSubmit}
       >
         {handleName().button}
       </Button>

@@ -9,6 +9,7 @@ import { ProductItem } from './Item';
 
 import {
   Button,
+  ButtonBar,
   Container,
   Content,
   EmptyLabel,
@@ -19,6 +20,7 @@ import {
   Wrapper,
 } from './styles';
 import useStateManager from '../../hooks/useStateManager';
+import { RefreshButton } from './RefreshButton';
 
 interface IProps {
   data: IProductItemProps[];
@@ -115,7 +117,10 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
             </Button>
           </PageControls>
         </Header>
-        <NewProduct />
+        <ButtonBar>
+          <NewProduct />
+          <RefreshButton style={{ marginLeft: 15 }} />
+        </ButtonBar>
         {!searchProducts().length ? (
           <EmptyLabel>Nenhum produto encontrado.</EmptyLabel>
         ) : (

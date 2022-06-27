@@ -1,9 +1,15 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { Container, ImageContent } from './styles';
 
 export const LoadingScreen: React.FC = () => {
   return (
     <Container>
+      <Head>
+        <title>Carregando..</title>
+        <meta name="description" content="Carregando.." />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       <ImageContent>
         <Image
           src={`/loading.svg`}

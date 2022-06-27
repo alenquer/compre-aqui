@@ -76,3 +76,8 @@ export const EmptyLabel = styled.p`
   margin: 1rem 0;
   color: #333;
 `;
+
+export const ButtonBar = styled.div`
+  display: flex;
+  align-items: center;
+`;

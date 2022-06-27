@@ -1,20 +1,27 @@
 import Image from 'next/image';
 import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { api } from '../../../config/api';
+import useSWR from 'swr';
 import { ProductForm } from '../../../components/ProductForm';
 import { Container, ImageContent, Wrapper } from './styles';
 import { useRouter } from 'next/router';
 import { LoadingScreen } from '../../../components/Loading';
 
-interface IProps {
-  items: IProductItemProps;
-}
-
-export default function Product({ items }: IProps) {
+export default function Product() {
   const router = useRouter();
 
-  if (router.isFallback) {
+  let pathUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${router.query.productId}`;
+
+  const { data, error } = useSWR(pathUrl, async () => {
+    const response = await fetch(pathUrl);
+
+    return await response.json();
+  });
+
+  if (error) {
+    router.back();
+  }
+
+  if (!data || error) {
     return <LoadingScreen />;
   }
 
@@ -39,43 +46,9 @@ export default function Product({ items }: IProps) {
           </ImageContent>
         </Wrapper>
         <Wrapper>
-          <ProductForm data={items} method="edit" />
+          <ProductForm data={data} method="edit" />
         </Wrapper>
       </Container>
     </>
   );
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await api.get('/products');
-
-  const data: IProductItemProps[] = await response.data;
-
-  const paths = data.map((props) => ({
-    params: {
-      productId: props.id,
-    },
-  }));
-
-  return {
-    paths,
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { productId } = params;
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
-  );
-
-  const items = await response.json();
-
-  return {
-    props: {
-      items,
-    },
-    revalidate: 3,
-  };
-};
