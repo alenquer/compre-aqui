@@ -5,6 +5,7 @@ import { ProductForm } from '../../../components/ProductForm';
 import { Container, ImageContent, Wrapper } from './styles';
 import { useRouter } from 'next/router';
 import { LoadingScreen } from '../../../components/Loading';
+import { BackButton } from '../../../components/BackButton';
 
 export default function Product() {
   const router = useRouter();
@@ -48,6 +49,7 @@ export default function Product() {
         <Wrapper>
           <ProductForm data={data} method="edit" />
         </Wrapper>
+        <BackButton />
       </Container>
     </>
   );

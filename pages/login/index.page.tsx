@@ -5,6 +5,10 @@ import Image from 'next/image';
 import { LoginForm } from '../../components/LoginForm';
 import { Container, ImageContent, Wrapper } from './styles';
 import { LoadingScreen } from '../../components/Loading';
+import { theme } from '../../config/theme';
+import { ChevronLeftSquare } from '@styled-icons/boxicons-solid';
+import Link from 'next/link';
+import { BackButton } from '../../components/BackButton';
 
 export default function Login() {
   const router = useRouter();
@@ -31,7 +35,7 @@ export default function Login() {
         <LoadingScreen />
       ) : (
         <Container>
-          <Wrapper color="#3B30B2">
+          <Wrapper color={theme.colors.purple_dark}>
             <ImageContent>
               <Image
                 src={`/welcome.svg`}
@@ -46,6 +50,7 @@ export default function Login() {
           <Wrapper>
             <LoginForm />
           </Wrapper>
+          <BackButton />
         </Container>
       )}
     </>

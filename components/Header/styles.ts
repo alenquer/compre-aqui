@@ -5,23 +5,26 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 4rem;
-  background: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(1024px, 95%);
+  width: min(1000px, 95%);
 `;
 
 export const Title = styled.span`
   font-size: 1rem;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.purple_dark};
 
   @media screen and (min-width: 600px) {
     font-size: 1.3rem;
+  }
+
+  :hover {
+    cursor: pointer;
   }
 `;
 

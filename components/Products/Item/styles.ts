@@ -26,7 +26,7 @@ export const Wrapper = styled.div`
 
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: #eee;
   }
 `;
 

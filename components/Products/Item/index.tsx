@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import useStateManager from '../../../hooks/useStateManager';
-import { limitCase } from '../../../utils';
+import { convertCurrency, limitCase } from '../../../utils';
 import {
   Container,
   Image,
@@ -35,6 +35,10 @@ export const ProductItem: React.FC<IProps> = ({ item }) => {
     window.localStorage.setItem('@cart', JSON.stringify(items));
   }
 
+  function formatCurrency() {
+    return convertCurrency('period', Number(item.price ?? 0).toFixed(2), 'R$');
+  }
+
   return (
     <Container>
       <Button onClick={handleCartItem} active={cartItems.includes(item.sku)}>
@@ -44,7 +48,7 @@ export const ProductItem: React.FC<IProps> = ({ item }) => {
         <Wrapper>
           <Image src={item.avatar} />
           <Title>{limitCase(item.name, 15)}</Title>
-          <Price>R$ {limitCase(Number(item.price).toFixed(2), 10)}</Price>
+          <Price>{limitCase(formatCurrency(), 20)}</Price>
         </Wrapper>
       </Link>
       <EditAuthor style={{ marginLeft: 5 }}>

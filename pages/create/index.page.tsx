@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { BackButton } from '../../components/BackButton';
 import { ProductForm } from '../../components/ProductForm';
 import { Container, ImageContent, Wrapper } from './styles';
 
@@ -35,6 +37,7 @@ export default function Create() {
         <Wrapper>
           <ProductForm data={initialData} method="create" />
         </Wrapper>
+        <BackButton />
       </Container>
     </>
   );

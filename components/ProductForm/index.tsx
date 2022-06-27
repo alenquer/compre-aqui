@@ -54,11 +54,6 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     let tempErrors = [];
 
-    if (!user) {
-      window.alert('É necessário estar logado para continuar.');
-      return false;
-    }
-
     if (!name || !avatar || !sku) {
       window.alert('Por favor, preencha os campos obrigatórios.');
       return false;
@@ -85,11 +80,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   async function updateData() {
-    const check = await checkForm();
-
-    if (!check) {
-      return window.alert('Algo deu errado, tente novamente!');
-    }
+    window.alert('O seu produto está sendo atualizado..');
 
     const newData = {
       ...state,
@@ -102,26 +93,17 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     } catch (e) {
       window.alert('Algo deu errado, tente novamente!');
     } finally {
-      setState(newData);
       setLoading(false);
-    }
-
-    window.alert('O seu produto está sendo atualizado..');
-
-    const request = await api.put(`/api/products/${data.id}`, {
-      ...state,
-      author: user,
-      updatedAt: new Date().toISOString(),
-    });
-
-    if (request.status !== 200) {
-      window.alert('Algo deu errado, tente novamente!');
-      return router.reload();
+      setState(newData);
     }
   }
 
   async function removeData(e: any) {
     e.preventDefault();
+
+    if (loading) {
+      return window.alert('Por favor, aguarde um momento..');
+    }
 
     try {
       setLoading(true);
@@ -136,12 +118,6 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   async function newData() {
-    const check = await checkForm();
-
-    if (!check) {
-      return window.alert('Algo deu errado, tente novamente!');
-    }
-
     const newData = {
       ...state,
       author: user,
@@ -167,6 +143,21 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
+
+    if (loading) {
+      return window.alert('Por favor, aguarde um momento..');
+    }
+
+    if (!user) {
+      window.alert('É necessário estar logado para continuar.');
+      return router.push('/login');
+    }
+
+    const check = await checkForm();
+
+    if (!check) {
+      return window.alert('Algo deu errado, tente novamente!');
+    }
 
     switch (method) {
       case 'edit':
@@ -251,7 +242,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       {state.author && (
         <EditAuthor>
           {`Editado por `}
-          <EditAuthor active>{limitCase(data.author, 15)}</EditAuthor>
+          <EditAuthor active>{limitCase(state.author, 15)}</EditAuthor>
         </EditAuthor>
       )}
       {state.createdAt && (
