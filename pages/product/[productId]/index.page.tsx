@@ -6,6 +6,7 @@ import { Container, ImageContent, Wrapper } from './styles';
 import { useRouter } from 'next/router';
 import { LoadingScreen } from '../../../components/Loading';
 import { BackButton } from '../../../components/BackButton';
+import { theme } from '../../../config/theme';
 
 export default function Product() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function Product() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Container>
-        <Wrapper color="#3B30B2">
+        <Wrapper color={theme.colors.purple_dark}>
           <ImageContent>
             <Image
               src={`/food.svg`}

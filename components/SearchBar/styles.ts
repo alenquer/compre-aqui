@@ -23,3 +23,11 @@ export const Input = styled.input`
   outline: none;
   width: 100%;
 `;
+
+export const Button = styled.button`
+  cursor: pointer;
+
+  :hover {
+    opacity: 0.5;
+  }
+`;

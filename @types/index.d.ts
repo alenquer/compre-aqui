@@ -5,6 +5,7 @@ declare interface IProductItemProps {
   price: number;
   author: string;
   sku: string;
+  editAuthor: string;
   createdAt?: string;
   updatedAt?: string;
 }

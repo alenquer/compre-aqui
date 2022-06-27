@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BackButton } from '../../components/BackButton';
 import { ProductForm } from '../../components/ProductForm';
+import { theme } from '../../config/theme';
 import { Container, ImageContent, Wrapper } from './styles';
 
 export default function Create() {
@@ -22,7 +23,7 @@ export default function Create() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Container>
-        <Wrapper color="#3B30B2">
+        <Wrapper color={theme.colors.purple_dark}>
           <ImageContent>
             <Image
               src={`/food.svg`}

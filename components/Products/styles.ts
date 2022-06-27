@@ -71,13 +71,11 @@ export const Content = styled.ul`
   }
 `;
 
-export const EmptyLabel = styled.p`
-  font-size: 0.9rem;
-  margin: 1rem 0;
-  color: #333;
-`;
-
 export const ButtonBar = styled.div`
   display: flex;
   align-items: center;
+
+  button:not(:last-child) {
+    margin-right: 15px;
+  }
 `;

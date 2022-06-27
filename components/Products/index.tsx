@@ -12,7 +12,6 @@ import {
   ButtonBar,
   Container,
   Content,
-  EmptyLabel,
   Header,
   PageControls,
   PageLabel,
@@ -119,11 +118,9 @@ export const ProductList: React.FC<IProps> = ({ data }) => {
         </Header>
         <ButtonBar>
           <NewProduct />
-          <RefreshButton style={{ marginLeft: 15 }} />
+          <RefreshButton />
         </ButtonBar>
-        {!searchProducts().length ? (
-          <EmptyLabel>Nenhum produto encontrado.</EmptyLabel>
-        ) : (
+        {!searchProducts().length ? null : (
           <Content>
             {_currentPage.map((item) => {
               return <ProductItem key={item.id} item={item} />;

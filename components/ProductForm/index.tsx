@@ -21,7 +21,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   const router = useRouter();
   const { user } = useStateManager();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(['']);
+  const [errors, setError] = useState(['']);
 
   const [state, setState] = useState(data);
 
@@ -50,18 +50,11 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   async function checkForm() {
-    const { avatar, name, sku } = state;
-
     let tempErrors = [];
 
-    if (!name || !avatar || !sku) {
-      window.alert('Por favor, preencha os campos obrigatórios.');
-      return false;
-    }
-
     try {
-      const isValidAvatar = validURL(avatar);
       const isValidSku = await checkSku(state.sku);
+      const isValidAvatar = validURL(state.avatar);
 
       if (!isValidAvatar) {
         tempErrors.push('avatar');
@@ -84,7 +77,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
 
     const newData = {
       ...state,
-      author: user,
+      editAuthor: user,
       updatedAt: new Date().toISOString(),
     };
 
@@ -121,6 +114,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     const newData = {
       ...state,
       author: user,
+      editAuthor: user,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -138,10 +132,12 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
   }
 
   function hasError(val: string) {
-    return error.includes(val);
+    return errors.includes(val);
   }
 
   async function handleSubmit(e: any) {
+    const { avatar, name, sku } = state;
+
     e.preventDefault();
 
     if (loading) {
@@ -151,6 +147,11 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
     if (!user) {
       window.alert('É necessário estar logado para continuar.');
       return router.push('/login');
+    }
+
+    if (!name || !avatar || !sku) {
+      window.alert('Por favor, preencha os campos obrigatórios.');
+      return false;
     }
 
     const check = await checkForm();
@@ -218,6 +219,7 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
         <Input
           error={hasError('avatar')}
           value={state.avatar}
+          type="url"
           placeholder="Endereço de imagem"
           onChange={(e) => setState({ ...state, avatar: e.target.value })}
         />
@@ -241,8 +243,14 @@ export const ProductForm: React.FC<IProps> = ({ data, method }) => {
       )}
       {state.author && (
         <EditAuthor>
-          {`Editado por `}
+          {`Criado por `}
           <EditAuthor active>{limitCase(state.author, 15)}</EditAuthor>
+        </EditAuthor>
+      )}
+      {state.editAuthor && (
+        <EditAuthor>
+          {`Editado por `}
+          <EditAuthor active>{limitCase(state.editAuthor, 15)}</EditAuthor>
         </EditAuthor>
       )}
       {state.createdAt && (
